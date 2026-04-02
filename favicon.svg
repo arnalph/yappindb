@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a73e8"/>
+      <stop offset="100%" stop-color="#4285f4"/>
+    </linearGradient>
+  </defs>
+  <!-- Database -->
+  <ellipse cx="16" cy="8" rx="10" ry="4" fill="url(#favGrad)"/>
+  <path d="M6 8v16c0 3 4.5 5 10 5s10-2 10-5V8" fill="url(#favGrad)"/>
+  <ellipse cx="16" cy="24" rx="10" ry="4" fill="url(#favGrad)"/>
+  <!-- Chat bubble overlay -->
+  <path d="M18 14 Q18 12 20 12 L26 12 Q28 12 28 14 L28 18 Q28 20 26 20 L20 20 Q18 20 18 18 Z" fill="white" opacity="0.9"/>
+  <text x="21" y="18" font-family="Arial" font-size="8" font-weight="bold" fill="#1a73e8">?</text>
+</svg>

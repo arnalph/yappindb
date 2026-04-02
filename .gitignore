@@ -1,0 +1,156 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.pydevproject
+.settings/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Cache files
+cache/
+*.db
+*.sqlite
+*.sqlite3
+!tests/*.db
+!tests/*.sqlite
+
+# Model files (too large for Git)
+models/
+*.gguf
+*.bin
+*.pth
+*.pt
+*.onnx
+*.h5
+
+# Environment variables (sensitive)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Configuration with secrets
+config.local.json
+*.secret.json
+*credentials*
+*secrets*
+
+# Logs
+*.log
+logs/
+err_sql.txt
+error_queries.jsonl
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Upload/test files
+payload*.json
+test_payload.json
+upload_*.ps1
+!tests/payload*.json
+
+# Session files
+session_info.json
+*.session
+
+# Coverage
+coverage.xml
+*.cover
+*.py,cover
+
+# HTML coverage reports
+htmlcov/
+
+# Ruff
+.ruff_cache/
+
+# uv
+uv.lock
+
+# Local development
+local/
+dev/
+*.local.*
+
+# Database files (except test databases)
+*.db
+*.sqlite
+*.sqlite3
+!tests/*.db
+!tests/*.sqlite
+
+# Excel/CSV test data
+*.csv
+*.xlsx
+*.xls
+!tests/*.csv
+!tests/*.xlsx
+
+# Context files
+contextify-output.txt
+contexts/
+
+# Qwen specific
+.qwen/
+$null
+  
+# PowerShell artifacts  
+$null/  

@@ -1,0 +1,28 @@
+# DBarf Dependencies
+
+# Web framework
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# Database
+sqlalchemy>=2.0.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# Caching
+diskcache>=5.6.0
+
+# Agent framework
+langgraph>=0.2.0
+pydantic>=2.0.0
+
+# File uploads
+python-multipart>=0.0.6
+
+# LLM inference (GGUF format)
+llama-cpp-python>=0.2.0
+
+# Development / Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
