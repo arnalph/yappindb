@@ -154,3 +154,6 @@ $null
   
 # PowerShell artifacts  
 $null/  
+  
+# Documentation (internal)  
+docs/  
