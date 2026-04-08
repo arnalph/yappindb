@@ -22,7 +22,17 @@ python-multipart>=0.0.6
 # LLM inference (GGUF format)
 llama-cpp-python>=0.2.0
 
+# SQL validation
+sqlparse>=0.4.0
+
 # Development / Testing
 pytest>=7.0.0
 pytest-asyncio>=0.21.0
 pytest-cov>=4.0.0
+
+# Benchmark (optional)
+# Install with: pip install -r requirements.txt (includes benchmark deps)
+datasets>=2.14.0
+tqdm>=4.65.0
+huggingface_hub>=0.19.0
+pyyaml>=6.0

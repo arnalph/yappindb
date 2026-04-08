@@ -249,6 +249,104 @@ pytest tests/test_db_translation.py -v
 
 ### Test Data
 
+The `tests/data/` directory contains sample payloads for testing.
+
+---
+
+## 📊 Benchmarking with Bird-SQL
+
+YappinDB includes a comprehensive benchmark suite for the **Bird-SQL** dataset, enabling you to evaluate SQL generation accuracy across real-world queries.
+
+### Quick Start
+
+```bash
+# 1. Download Bird-SQL dataset
+python scripts/download_bird.py --output data --subset dev
+
+# 2. Download SQLite databases from https://bird-bench.github.io/
+#    Place them in: data/bird_databases/{db_id}/{db_id}.sqlite
+
+# 3. Run benchmark
+python -m rag_agent.benchmark
+
+# Or use the PowerShell script (Windows)
+.\scripts\run_benchmark.ps1
+```
+
+### Configuration
+
+Add to `config.json`:
+
+```json
+{
+  "benchmark": {
+    "enabled": true,
+    "dataset_source": "bird",
+    "dataset_name": "birdsql/bird-critic-1.0-sqlite",
+    "dataset_subset": "dev",
+    "queries_file": "data/bird_dev.json",
+    "databases_dir": "data/bird_databases",
+    "output_dir": "benchmark_results",
+    "threshold": 0.70
+  }
+}
+```
+
+### Benchmark Modes
+
+| Mode | Command | Description |
+|------|---------|-------------|
+| **Native** | `python -m rag_agent.benchmark` | Direct evaluation with execution accuracy |
+| **Limited** | `python -m rag_agent.benchmark --limit 50` | Run subset for quick testing |
+| **Promptfoo** | `python -m rag_agent.benchmark --promptfoo` | Generate promptfoo config |
+
+### Results
+
+After running the benchmark, you'll find:
+
+| File | Description |
+|------|-------------|
+| `benchmark_results/bird_results_*.json` | Detailed JSON results |
+| `benchmark_results/bird_report_*.html` | Visual HTML report |
+| `benchmark_results/bird_summary_*.csv` | CSV summary for analysis |
+
+### Metrics
+
+| Metric | Description |
+|--------|-------------|
+| **Execution Accuracy** | Does the generated SQL produce the same results as gold SQL? |
+| **Exact Match** | Is the generated SQL identical to gold SQL (normalized)? |
+| **Latency** | How long does each query take? |
+
+### CI Integration
+
+The benchmark exits with code `1` if accuracy falls below the threshold, making it perfect for CI:
+
+```yaml
+# .github/workflows/benchmark.yml
+- name: Run Benchmark
+  run: python -m rag_agent.benchmark --limit 100
+```
+
+### Promptfoo Integration
+
+For advanced evaluation with custom metrics:
+
+```bash
+# Install promptfoo
+npm install -g promptfoo
+
+# Generate config
+python -m rag_agent.benchmark --promptfoo
+
+# Run evaluation
+promptfoo eval -c promptfooconfig.yaml -o benchmark_results/report.html
+```
+
+---
+
+## 🛡️ Security
+
 Sample test files are located in `tests/data/`:
 - `payload.json` - Sample chat request
 - `payload_new.json` - Alternative request format
