@@ -18,6 +18,7 @@ def generate_sql_node(state: AgentState) -> AgentState:
     based on the user's question and the database schema.
     Includes database type in the prompt for dialect-specific SQL.
     When disable_aliases is enabled, automatically converts any aliases to full table names.
+    If evidence is provided in state, it's passed to the generator as a hint.
 
     Args:
         state: Current agent state.
@@ -40,10 +41,13 @@ def generate_sql_node(state: AgentState) -> AgentState:
             schema_str = ""
 
         db_type = state.db_type or "sqlite"
+        evidence = getattr(state, 'evidence', '') or ''
+        
         sql = generator.generate_sql(
             question=state.question,
             schema=schema_str,
             db_type=db_type,
+            evidence=evidence
         )
 
         if not sql or not sql.strip():

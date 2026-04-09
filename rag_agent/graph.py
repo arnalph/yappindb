@@ -96,6 +96,7 @@ def run_agent(
     question: str,
     db_source: str = "sales.db",
     db_type: str = "sqlite",
+    evidence: str = "",
 ) -> dict:
     """
     Run the RAG agent with a question.
@@ -104,6 +105,7 @@ def run_agent(
         question: Natural language question.
         db_source: Database source (file path or connection string).
         db_type: Database type (sqlite, postgresql, mysql, csv, xlsx).
+        evidence: Optional hint/evidence for the question.
 
     Returns:
         Final state dictionary with response.
@@ -114,6 +116,7 @@ def run_agent(
         question=question,
         db_source=db_source,
         db_type=db_type,
+        evidence=evidence,
     )
 
     result = graph.invoke(initial_state.model_dump())

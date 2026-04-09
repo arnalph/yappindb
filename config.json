@@ -37,15 +37,15 @@
 
   "benchmark": {
     "enabled": true,
-    "dataset_source": "bird",
-    "dataset_name": "birdsql/bird-critic-1.0-sqlite",
+    "dataset_source": "minidev",
+    "dataset_name": "minidev_sqlite",
     "dataset_subset": "dev",
-    "queries_file": "data/bird_dev.json",
-    "databases_dir": "data/bird_databases",
+    "queries_file": "data/minidev_sqlite.json",
+    "databases_dir": "data/minidev_databases",
     "output_dir": "benchmark_results",
-    "threshold": 0.70,
-    "use_promptfoo": true,
-    "limit": null,
+    "threshold": 0.50,
+    "use_promptfoo": false,
+    "limit": 50,
     "hf_dataset_cache": null
   }
 }

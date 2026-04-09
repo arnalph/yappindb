@@ -42,6 +42,7 @@ class AgentState(BaseModel):
     retry_attempted: bool = Field(default=False, description="Flag for retry mechanism")
     db_source: str = Field(default="sales.db", description="Database source")
     db_type: str = Field(default="sqlite", description="Database type")
+    evidence: str = Field(default="", description="Optional hint/evidence for the question")
 
     class Config:
         arbitrary_types_allowed = True

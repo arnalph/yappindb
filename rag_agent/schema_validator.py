@@ -24,6 +24,13 @@ SQL_KEYWORDS = {
     'NULLIF', 'EXTRACT', 'CURRENT_DATE', 'CURRENT_TIME', 'CURRENT_TIMESTAMP',
     'WITH', 'RECURSIVE', 'OVER', 'PARTITION', 'RANK', 'DENSE_RANK', 'ROW_NUMBER',
     'AS', 'DESC', 'ASC', 'NULLS', 'FIRST', 'LAST',
+    # SQLite functions - DO NOT VALIDATE AS COLUMNS
+    'STRFTIME', 'DATE', 'TIME', 'DATETIME', 'JULIANDAY', 'STRFTIME',
+    'SUBSTR', 'SUBSTRING', 'LENGTH', 'LOWER', 'UPPER', 'TRIM', 'LTRIM', 'RTRIM',
+    'REPLACE', 'INSTR', 'LIKE', 'GLOB', 'MATCH', 'REGEXP',
+    'RANDOM', 'ABS', 'ROUND', 'CEIL', 'CEILING', 'FLOOR',
+    'IIF', 'IFF', 'IFNULL', 'ZEROIFNULL', 'NVL',
+    'TOTAL', 'GROUP_CONCAT',
 }
 
 
@@ -170,17 +177,21 @@ def extract_columns_from_sql(sql: str) -> Set[str]:
         Set of column references (may include table.column format).
     """
     columns = set()
-    
+
     # Remove string literals to avoid false matches
     sql_no_strings = re.sub(r"'[^']*'", "''", sql)
-    
+
     # Remove AS aliases before processing (they're not real columns)
     # Pattern: expression AS alias_name -> expression
     sql_no_aliases = re.sub(r'\s+AS\s+[a-zA-Z_][a-zA-Z0-9_]*', '', sql_no_strings, flags=re.IGNORECASE)
     
+    # Remove SQL function calls to avoid matching function names as columns
+    # This handles functions like strftime(), substr(), lower(), etc.
+    sql_no_functions = re.sub(r'\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\([^)]*\)', '', sql_no_aliases, flags=re.IGNORECASE)
+    
     # Match qualified columns (table.column) but exclude keywords
     qualified_pattern = r'\b([a-zA-Z_][a-zA-Z0-9_]*)\.([a-zA-Z_][a-zA-Z0-9_]*)\b'
-    for match in re.finditer(qualified_pattern, sql_no_aliases, re.IGNORECASE):
+    for match in re.finditer(qualified_pattern, sql_no_functions, re.IGNORECASE):
         table_ref = match.group(1)
         column = match.group(2)
         # Exclude SQL keywords
@@ -188,7 +199,7 @@ def extract_columns_from_sql(sql: str) -> Set[str]:
             columns.add(f"{table_ref}.{column}")
     
     # Match columns in SELECT clause (after removing aliases)
-    select_match = re.search(r'\bSELECT\s+(.*?)\s+FROM\b', sql_no_aliases, re.IGNORECASE | re.DOTALL)
+    select_match = re.search(r'\bSELECT\s+(.*?)\s+FROM\b', sql_no_functions, re.IGNORECASE | re.DOTALL)
     if select_match:
         select_clause = select_match.group(1)
         # Remove function contents to avoid matching internal column names

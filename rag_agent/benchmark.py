@@ -101,7 +101,7 @@ class BirdBenchmark:
         """
         return self.databases_dir / db_id / f"{db_id}.sqlite"
     
-    def run_single_test(self, question: str, gold_sql: str, db_id: str) -> Dict:
+    def run_single_test(self, question: str, gold_sql: str, db_id: str, evidence: str = "") -> Dict:
         """Run one test case and return results."""
         db_path = self.get_db_path(db_id)
         
@@ -126,7 +126,8 @@ class BirdBenchmark:
             result = run_agent(
                 question=question,
                 db_source=str(db_path),
-                db_type="sqlite"
+                db_type="sqlite",
+                evidence=evidence
             )
         except Exception as e:
             return {
@@ -204,7 +205,8 @@ class BirdBenchmark:
             res = self.run_single_test(
                 question=item["question"],
                 gold_sql=item["SQL"],
-                db_id=item["db_id"]
+                db_id=item["db_id"],
+                evidence=item.get("evidence", "")
             )
             self.results.append(res)
         
@@ -295,6 +297,10 @@ class BirdBenchmark:
             exec_class = "pass" if r.get("execution_accuracy") else "fail"
             exact_class = "pass" if r.get("exact_match") else "fail"
             
+            error_text = r.get('error') if r.get('error') else ''
+            gold_sql = r.get('gold_sql', '')[:200] if r.get('gold_sql') else ''
+            gen_sql = r.get('generated_sql', '')[:200] if r.get('generated_sql') else ''
+            
             rows.append(f"""
             <tr class="{exec_class}">
                 <td>{i+1}</td>
@@ -304,10 +310,10 @@ class BirdBenchmark:
                 <td class="{exact_class}">{'YES' if r['exact_match'] else 'NO'}</td>
                 <td>{r['latency']:.2f}s</td>
                 <td><details><summary>View SQL</summary>
-                    <pre class="sql-block">Gold: {r['gold_sql'][:200]}
-Generated: {r['generated_sql'][:200]}</pre>
+                    <pre class="sql-block">Gold: {gold_sql}
+Generated: {gen_sql}</pre>
                 </details></td>
-                <td>{r.get('error', '')[:100]}</td>
+                <td>{error_text[:100]}</td>
             </tr>
             """)
         

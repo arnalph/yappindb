@@ -12,11 +12,11 @@ from rag_agent.db import DatabaseManager, set_db_manager, get_db_manager
 def format_schema_as_create_tables(schema: List[Dict[str, Any]], include_samples: bool = True) -> str:
     """
     Convert extracted schema dict to CREATE TABLE statements with sample values.
-    
+
     Args:
         schema: Schema list from database.
         include_samples: Whether to include sample values.
-        
+
     Returns:
         Formatted schema string.
     """
@@ -25,13 +25,14 @@ def format_schema_as_create_tables(schema: List[Dict[str, Any]], include_samples
         name = table.get("table_name", "unknown")
         columns = table.get("columns", [])
         samples = table.get("samples", {})
-        
+        foreign_keys = table.get("foreign_keys", [])
+
         col_defs = []
         for col in columns:
             col_name = col.get("name", "unknown")
             col_type = col.get("type", "TEXT").upper()
             sample_val = samples.get(col_name)
-            
+
             if col.get("primary_key", False):
                 col_defs.append(f"{col_name} {col_type} PRIMARY KEY")
             else:
@@ -39,9 +40,26 @@ def format_schema_as_create_tables(schema: List[Dict[str, Any]], include_samples
                 if sample_val is not None and include_samples:
                     col_def += f" -- e.g., {repr(sample_val)}"
                 col_defs.append(col_def)
+
+        # Add foreign key information
+        fk_info = []
+        if foreign_keys:
+            for fk in foreign_keys:
+                fk_columns = fk.get("columns", [])
+                ref_table = fk.get("referenced_table", "")
+                ref_columns = fk.get("referenced_columns", [])
+                for i, fk_col in enumerate(fk_columns):
+                    ref_col = ref_columns[i] if i < len(ref_columns) else "id"
+                    fk_info.append(f"FOREIGN KEY ({fk_col}) REFERENCES {ref_table}({ref_col})")
+
+        table_def = f"CREATE TABLE {name} (\n  "
+        table_def += ",\n  ".join(col_defs)
+        if fk_info:
+            table_def += ",\n  " + ",\n  ".join(fk_info)
+        table_def += "\n);"
         
-        lines.append(f"CREATE TABLE {name} ({', '.join(col_defs)});")
-    
+        lines.append(table_def)
+
     return "\n".join(lines)
 
 

@@ -100,9 +100,16 @@ class SQLGenerator:
             except ImportError:
                 raise RuntimeError("llama-cpp-python not installed. Install with: pip install llama-cpp-python")
 
-    def generate_sql(self, question: str, schema: str, db_type: str = "sqlite") -> str:
-        """Generate SQL query from question and schema."""
-        prompt = self._build_prompt(question, schema, db_type)
+    def generate_sql(self, question: str, schema: str, db_type: str = "sqlite", evidence: str = "") -> str:
+        """Generate SQL query from question and schema.
+        
+        Args:
+            question: Natural language question
+            schema: Database schema string
+            db_type: Database type (sqlite, postgresql, mysql)
+            evidence: Optional hint/evidence from dataset
+        """
+        prompt = self._build_prompt(question, schema, db_type, evidence=evidence)
 
         # Debug: Print schema if enabled
         if self.config.debug_config.get("print_schema", True):
@@ -119,7 +126,7 @@ class SQLGenerator:
         else:
             return self._generate_via_local(prompt)
 
-    def _build_prompt(self, question: str, schema: str, db_type: str = "sqlite") -> str:
+    def _build_prompt(self, question: str, schema: str, db_type: str = "sqlite", evidence: str = "") -> str:
         """
         Build a detailed prompt for SQL generation with strict rules.
         """
@@ -158,6 +165,17 @@ class SQLGenerator:
         else:
             alias_rules = """6. **TABLE ALIASES**: When using multiple tables, use short aliases (T1, T2, T3) for clarity."""
 
+        # Build evidence section if provided
+        evidence_section = ""
+        if evidence and evidence.strip():
+            evidence_section = f"""
+**HINT/EVIDENCE:**
+The following hint is provided for this question. USE THIS INFORMATION to construct accurate SQL:
+{evidence}
+
+IMPORTANT: The hint above describes how to calculate or interpret the answer. Follow it carefully.
+"""
+
         prompt = f"""You are an expert SQL query generator. Your task is to convert natural language questions into accurate SQL queries.
 
 **CRITICAL RULES - FOLLOW EXACTLY:**
@@ -183,7 +201,7 @@ class SQLGenerator:
 ```sql
 {schema}
 ```
-
+{evidence_section}
 **QUESTION:** {question}
 
 **INSTRUCTIONS:**

@@ -1,0 +1,2687 @@
+Loaded 500 test cases from data\minidev_sqlite.json
+Running first 50 test cases...
+Evaluating:   0%|          | 0/50 [00:00<?, ?it/s]Evaluating:   2%|2         | 1/50 [00:01<01:31,  1.87s/it]Evaluating:   4%|4         | 2/50 [00:05<02:20,  2.92s/it]Evaluating:   6%|6         | 3/50 [00:07<02:02,  2.60s/it]Evaluating:   8%|8         | 4/50 [00:11<02:12,  2.87s/it]Evaluating:  10%|#         | 5/50 [00:13<02:08,  2.86s/it]Evaluating:  12%|#2        | 6/50 [00:19<02:40,  3.64s/it]Evaluating:  14%|#4        | 7/50 [00:28<04:04,  5.68s/it]Evaluating:  16%|#6        | 8/50 [00:35<04:10,  5.96s/it]Evaluating:  18%|#8        | 9/50 [00:38<03:21,  4.92s/it]Using Hugging Face Inference API: Qwen/Qwen2.5-Coder-32B-Instruct
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the ratio of customers who pay in EUR against customers who pay in CZK?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: In 2012, who had the least consumption in LAM?
+================================================================================
+
+Expanded aliases in SQL: SELECT yearmonth.CustomerID FROM yearmonth WHERE substr(yearmonth.Date, 1, 4) = '2012' AND yearmonth...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What was the average monthly consumption of customers in SME for the year 2013?
+================================================================================
+
+Expanded aliases in SQL: SELECT AVG(yearmonth.Consumption) / 12 AS average_monthly_consumption FROM yearmonth JOIN customers ...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What was the difference in gas consumption between CZK-paying customers and EUR-paying customers in 2012?
+================================================================================
+
+Expanded aliases in SQL: SELECT (SELECT SUM(yearmonth.Consumption) FROM yearmonth JOIN customers ON yearmonth.CustomerID = cu...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Which year recorded the most consumption of gas paid in CZK?
+================================================================================
+
+Expanded aliases in SQL: SELECT SUBSTR(yearmonth.Date, 1, 4) AS Year FROM yearmonth JOIN customers ON yearmonth.CustomerID = ...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  20%|##        | 10/50 [00:39<02:35,  3.88s/it]Evaluating:  22%|##2       | 11/50 [00:42<02:17,  3.53s/it]Evaluating:  24%|##4       | 12/50 [00:44<01:57,  3.10s/it]Evaluating:  26%|##6       | 13/50 [00:46<01:42,  2.78s/it]Evaluating:  28%|##8       | 14/50 [00:48<01:29,  2.48s/it]Evaluating:  30%|###       | 15/50 [00:48<01:04,  1.84s/it]CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What was the gas consumption peak month for SME customers in 2013?
+================================================================================
+
+Expanded aliases in SQL: SELECT SUBSTR(yearmonth.Date, 5, 2) AS month FROM yearmonth JOIN customers ON yearmonth.CustomerID =...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+[]
+================================================================================
+DEBUG: QUESTION: You are a SQL expert. Fix the SQL query below to use ONLY valid columns from the schema.
+
+**USER QUESTION:** What was the gas consumption peak month for SME customers in 2013?
+
+**ANALYSIS OF QUESTION:**
+- Term: 'month' -> Type: time_dimension
+- Term: 'customer' -> Type: customer_dimension
+
+**AVAILABLE SCHEMA (USE ONLY THESE TABLES AND COLUMNS):**
+TABLE: customers
+  COLUMNS: CustomerID, Segment, Currency
+TABLE: gasstations
+  COLUMNS: GasStationID, ChainID, Country, Segment
+TABLE: products
+  COLUMNS: ProductID, Description
+TABLE: transactions_1k
+  COLUMNS: TransactionID, Date, Time, CustomerID, CardID, GasStationID, ProductID, Amount, Price
+TABLE: yearmonth
+  COLUMNS: CustomerID, Date, Consumption
+
+**RECOMMENDED COLUMNS FOR YOUR QUESTION:**
+- 'customer' (customer_dimension) -> Consider using: customers.CustomerID
+
+**ERRORS IN ORIGINAL SQL:**
+- Column 'month' not found in any table. Did you mean: amount, country, segment?. Available columns: amount, cardid, chainid, consumption, country, currency, customerid, date, description, gasstationid, price, productid, segment, time, transactionid
+
+**SUGGESTED ALTERNATIVES FOR INVALID COLUMNS:**
+(No suggestions available)
+
+**ORIGINAL SQL (HAS ERRORS):**
+SELECT SUBSTR(yearmonth.Date, 5, 2) AS month FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Segment = 'SME' AND SUBSTR(yearmonth.Date, 1, 4) = '2013' GROUP BY month ORDER BY SUM(yearmonth.Consumption) DESC LIMIT 1;
+
+**IMPORTANT RULES:**
+1. Use ONLY the column names listed in the schema above
+2. DO NOT invent column names like 'quantity' if they don't exist
+3. For counting items, use COUNT(column_name) or COUNT(*)
+4. For revenue/sales, use price, payment_value, or similar numeric columns
+5. Return ONLY the corrected SQL query, no explanation
+
+**CORRECTED SQL:**
+```sql
+
+================================================================================
+
+Schema validation failed but may be false positive. Attempting execution...
+Errors: ["Column 'month' not found in any table. Did you mean: amount, country, segment?. Available columns: amount, cardid, chainid, consumption, country, currency, customerid, date, description, gasstationid, price, productid, segment, time, transactionid"]
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the difference in the annual average consumption of the customers with the least amount of consumption paid in CZK for 2013 between SME and LAM, LAM and KAM, and KAM and SME?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Which of the three segments—SME, LAM and KAM—has the biggest and lowest percentage increases in consumption paid in EUR between 2012 and 2013?
+================================================================================
+
+Expanded aliases in SQL: SELECT customers.Segment, ((SUM(CASE WHEN SUBSTR(yearmonth.Date, 1, 4) = '2013' THEN yearmonth.Consu...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: How much did customer 6 consume in total between August and November 2013?
+================================================================================
+
+Evaluating:  32%|###2      | 16/50 [00:49<00:48,  1.41s/it]Evaluating:  34%|###4      | 17/50 [00:49<00:35,  1.09s/it]Evaluating:  36%|###6      | 18/50 [00:49<00:27,  1.16it/s]Evaluating:  38%|###8      | 19/50 [00:50<00:26,  1.17it/s]Evaluating:  40%|####      | 20/50 [00:50<00:20,  1.45it/s]Evaluating:  42%|####2     | 21/50 [00:51<00:16,  1.71it/s]
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: How many more "discount" gas stations does the Czech Republic have compared to Slovakia?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Is it true that more SMEs pay in Czech koruna than in euros? If so, how many more?
+================================================================================
+
+Expanded aliases in SQL: SELECT (SELECT COUNT(*) FROM transactions_1k JOIN customers ON transactions_1k.CustomerID = customer...
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: How many percent of LAM customer consumed more than 46.73?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: In February 2012, what percentage of customers consumed more than 528.3?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the highest monthly consumption in the year 2012?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Please list the product description of the products consumed in September, 2013.
+================================================================================
+
+Evaluating:  44%|####4     | 22/50 [00:51<00:14,  2.00it/s]Evaluating:  46%|####6     | 23/50 [00:51<00:11,  2.28it/s]Evaluating:  48%|####8     | 24/50 [00:52<00:10,  2.52it/s]Evaluating:  50%|#####     | 25/50 [00:52<00:09,  2.72it/s]Evaluating:  52%|#####2    | 26/50 [00:52<00:08,  2.85it/s]Evaluating:  54%|#####4    | 27/50 [00:53<00:08,  2.82it/s]
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Please list the countries of the gas stations with transactions taken place in June, 2013.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Among the customers who paid in euro, how many of them have a monthly consumption of over 1000?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Please list the product descriptions of the transactions taken place in the gas stations in the Czech Republic.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Please list the disparate time of the transactions taken place in the gas stations from chain no. 11.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Among the transactions made in the gas stations in the Czech Republic, how many of them are taken place after 2012/1/1?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What kind of currency did the customer paid at 16:25:00 in 2012/8/24?
+================================================================================
+
+Evaluating:  56%|#####6    | 28/50 [00:53<00:07,  2.88it/s]Evaluating:  58%|#####8    | 29/50 [00:53<00:07,  2.98it/s]Evaluating:  60%|######    | 30/50 [00:54<00:06,  2.89it/s]Evaluating:  62%|######2   | 31/50 [00:54<00:06,  2.99it/s]
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What segment did the customer have at 2012/8/23 21:20:00?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: For all the transactions happened during 8:00-9:00 in 2012/8/26, how many happened in CZE?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What's the nationality of the customer who spent 548.4 in 2012/8/24?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the percentage of the customers who used EUR in 2012/8/25?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: For the customer who paid 634.8 in 2012/8/25, what was the consumption decrease rate from Year 2012 to 2013?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the percentage of "premium" against the overall segment in Country = "SVK"?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+Evaluating:  64%|######4   | 32/50 [00:54<00:06,  2.98it/s]Evaluating:  66%|######6   | 33/50 [00:55<00:05,  2.88it/s]Evaluating:  68%|######8   | 34/50 [00:55<00:05,  2.81it/s]================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: What is the amount spent by customer "38508" at the gas stations? How much had the customer spent in January 2012?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: Who is the top spending customer and how much is the average price per single item purchased by this customer? What currency was being used?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE customers (
+  CustomerID INTEGER PRIMARY KEY,
+  Segment TEXT -- e.g., 'SME',
+  Currency TEXT -- e.g., 'EUR'
+);
+CREATE TABLE gasstations (
+  GasStationID INTEGER PRIMARY KEY,
+  ChainID INTEGER -- e.g., 13,
+  Country TEXT -- e.g., 'CZE',
+  Segment TEXT -- e.g., 'Value for money'
+);
+CREATE TABLE products (
+  ProductID INTEGER PRIMARY KEY,
+  Description TEXT -- e.g., 'Rucní zadání'
+);
+CREATE TABLE transactions_1k (
+  TransactionID INTEGER PRIMARY KEY,
+  Date DATE -- e.g., '2012-08-24',
+  Time TEXT -- e.g., '09:41:00',
+  CustomerID INTEGER -- e.g., 31543,
+  CardID INTEGER -- e.g., 486621,
+  GasStationID INTEGER -- e.g., 3704,
+  ProductID INTEGER -- e.g., 2,
+  Amount INTEGER -- e.g., 28,
+  Price REAL -- e.g., 672.64
+);
+CREATE TABLE yearmonth (
+  CustomerID INTEGER PRIMARY KEY,
+  Date TEXT PRIMARY KEY,
+  Consumption REAL -- e.g., 528.3
+);
+================================================================================
+DEBUG: QUESTION: For all the people who paid more than 29.00 per unit of product id No.5. Give their consumption status in the August of 2012.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What's Angela Sanders's major?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  70%|#######   | 35/50 [00:55<00:05,  2.82it/s]Evaluating:  72%|#######2  | 36/50 [00:56<00:04,  2.86it/s]Evaluating:  74%|#######4  | 37/50 [00:56<00:04,  2.95it/s]CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Among the students from the Student_Club who attended the event "Women's Soccer", how many of them want a T-shirt that's in medium size?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Among the events attended by more than 10 members of the Student_Club, how many of them are meetings?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: List all the names of events that had an attendance of over 20 students but were not fundraisers.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  76%|#######6  | 38/50 [00:56<00:04,  2.92it/s]Evaluating:  78%|#######8  | 39/50 [00:57<00:03,  3.00it/s]Evaluating:  80%|########  | 40/50 [00:57<00:03,  3.06it/s]CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What is the amount of the funds that the Vice President received?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: List the full name of the Student_Club members that grew up in Illinois state.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Was each expense in October Meeting on October 8, 2019 approved?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  82%|########2 | 41/50 [00:58<00:03,  2.26it/s]Evaluating:  84%|########4 | 42/50 [00:58<00:03,  2.50it/s]Evaluating:  86%|########6 | 43/50 [00:58<00:02,  2.66it/s]CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Calculate the total average cost that Elijah Allen spent in the events on September and October.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Calculate the difference of the total amount spent in all events by the Student_Club in year 2019 and 2020.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What was the notes of the fundraising on 2019/9/14?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  88%|########8 | 44/50 [00:59<00:02,  2.66it/s]Evaluating:  90%|######### | 45/50 [00:59<00:01,  2.74it/s]Evaluating:  92%|#########2| 46/50 [00:59<00:01,  2.72it/s]CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Tell the phone number of "Carlo Jacobs".
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What is the status of the event which bought "Post Cards, Posters" on 2019/8/20?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What was Brent Thomason's major?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating:  94%|#########3| 47/50 [01:00<00:01,  2.81it/s]Evaluating:  96%|#########6| 48/50 [01:00<00:00,  2.76it/s]Evaluating:  98%|#########8| 49/50 [01:00<00:00,  2.83it/s]CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: For all the club members from "Business" major, how many of them wear medium size t-shirt?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: Which department was the President of the club in?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: State the date Connor Hilton paid his/her dues.
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+Evaluating: 100%|##########| 50/50 [01:01<00:00,  2.87it/s]Evaluating: 100%|##########| 50/50 [01:01<00:00,  1.23s/it]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\hp\Documents\coding\DBarf\rag_agent\benchmark.py", line 515, in <module>
+    main()
+  File "C:\Users\hp\Documents\coding\DBarf\rag_agent\benchmark.py", line 510, in main
+    exit_code = bench.run_all(limit=args.limit)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hp\Documents\coding\DBarf\rag_agent\benchmark.py", line 217, in run_all
+    self.save_reports()
+  File "C:\Users\hp\Documents\coding\DBarf\rag_agent\benchmark.py", line 284, in save_reports
+    gen = f'"{r["generated_sql"].replace(chr(34), chr(34)*2)}"'
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: How many times was the budget in Advertisement for "Yearly Kickoff" meeting more than "October Meeting"?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What is the total cost of the pizzas for all the events?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: How many cities are there in Orange County, Virginia?
+================================================================================
+
+
+================================================================================
+DEBUG: SCHEMA SENT TO LLM
+================================================================================
+CREATE TABLE attendance (
+  link_to_event TEXT PRIMARY KEY,
+  link_to_member TEXT PRIMARY KEY
+);
+CREATE TABLE budget (
+  budget_id TEXT PRIMARY KEY,
+  category TEXT -- e.g., 'Advertisement',
+  spent REAL -- e.g., 67.81,
+  remaining REAL -- e.g., 7.19,
+  amount INTEGER -- e.g., 75,
+  event_status TEXT -- e.g., 'Closed',
+  link_to_event TEXT -- e.g., 'recI43CzsZ0Q625ma'
+);
+CREATE TABLE event (
+  event_id TEXT PRIMARY KEY,
+  event_name TEXT -- e.g., 'March Meeting',
+  event_date TEXT -- e.g., '2020-03-10T12:00:00',
+  type TEXT -- e.g., 'Meeting',
+  notes TEXT,
+  location TEXT -- e.g., 'MU 215',
+  status TEXT -- e.g., 'Open'
+);
+CREATE TABLE expense (
+  expense_id TEXT PRIMARY KEY,
+  expense_description TEXT -- e.g., 'Post Cards, Posters',
+  expense_date TEXT -- e.g., '2019-08-20',
+  cost REAL -- e.g., 122.06,
+  approved TEXT -- e.g., 'true',
+  link_to_member TEXT -- e.g., 'rec4BLdZHS2Blfp4v',
+  link_to_budget TEXT -- e.g., 'recvKTAWAFKkVNnXQ'
+);
+CREATE TABLE income (
+  income_id TEXT PRIMARY KEY,
+  date_received TEXT -- e.g., '2019-10-17',
+  amount INTEGER -- e.g., 50,
+  source TEXT -- e.g., 'Dues',
+  notes TEXT,
+  link_to_member TEXT -- e.g., 'reccW7q1KkhSKZsea'
+);
+CREATE TABLE major (
+  major_id TEXT PRIMARY KEY,
+  major_name TEXT -- e.g., 'Outdoor Product Design and Development',
+  department TEXT -- e.g., 'School of Applied Sciences, Technology and Educ...',
+  college TEXT -- e.g., 'College of Agriculture and Applied Sciences'
+);
+CREATE TABLE member (
+  member_id TEXT PRIMARY KEY,
+  first_name TEXT -- e.g., 'Angela',
+  last_name TEXT -- e.g., 'Sanders',
+  email TEXT -- e.g., 'angela.sanders@lpu.edu',
+  position TEXT -- e.g., 'Member',
+  t_shirt_size TEXT -- e.g., 'Medium',
+  phone TEXT -- e.g., '(651) 928-4507',
+  zip INTEGER -- e.g., 55108,
+  link_to_major TEXT -- e.g., 'recxK3MHQFbR9J5uO'
+);
+CREATE TABLE zip_code (
+  zip_code INTEGER PRIMARY KEY,
+  type TEXT -- e.g., 'Unique',
+  city TEXT -- e.g., 'Holtsville',
+  county TEXT -- e.g., 'Suffolk County',
+  state TEXT -- e.g., 'New York',
+  short_state TEXT -- e.g., 'NY'
+);
+================================================================================
+DEBUG: QUESTION: What does the person with the phone number "809-555-3360" major in?
+================================================================================
+

@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "dataset": "minidev_sqlite",
+    "subset": "dev",
+    "timestamp": "20260409_172612",
+    "threshold": 0.5
+  },
+  "summary": {
+    "total": 5,
+    "db_available": 5,
+    "execution_accuracy": 0.0,
+    "exact_match": 0.0,
+    "avg_latency": 2.7191315650939942,
+    "errors": 0,
+    "threshold": 0.5,
+    "passed": false
+  },
+  "results": [
+    {
+      "question": "What is the ratio of customers who pay in EUR against customers who pay in CZK?",
+      "gold_sql": "SELECT CAST(SUM(IIF(Currency = 'EUR', 1, 0)) AS FLOAT) / SUM(IIF(Currency = 'CZK', 1, 0)) AS ratio FROM customers",
+      "db_id": "debit_card_specializing",
+      "generated_sql": "SELECT CAST(SUM(CASE WHEN customers.Currency = 'EUR' THEN 1 ELSE 0 END) AS REAL) / CAST(COUNT(*) AS REAL) AS Ratio_EUR_Customers FROM customers;",
+      "execution_accuracy": false,
+      "exact_match": false,
+      "db_available": true,
+      "latency": 2.4687514305114746,
+      "error": null
+    },
+    {
+      "question": "In 2012, who had the least consumption in LAM?",
+      "gold_sql": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'LAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+      "db_id": "debit_card_specializing",
+      "generated_sql": "SELECT customers.CustomerID FROM customers JOIN yearmonth ON customers.CustomerID = yearmonth.CustomerID WHERE substr(yearmonth.Date, 1, 4) = '2012' AND yearmonth.Consumption = ( SELECT MIN(Consumption) FROM yearmonth WHERE substr(Date, 1, 4) = '2012' ) LIMIT 1;",
+      "execution_accuracy": false,
+      "exact_match": false,
+      "db_available": true,
+      "latency": 2.6738336086273193,
+      "error": null
+    },
+    {
+      "question": "What was the average monthly consumption of customers in SME for the year 2013?",
+      "gold_sql": "SELECT AVG(T2.Consumption) / 12 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'",
+      "db_id": "debit_card_specializing",
+      "generated_sql": "SELECT AVG(yearmonth.Consumption) AS average_monthly_consumption FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Segment = 'SME' AND substr(yearmonth.Date, 1, 4) = '2013';",
+      "execution_accuracy": false,
+      "exact_match": false,
+      "db_available": true,
+      "latency": 1.7655837535858154,
+      "error": null
+    },
+    {
+      "question": "What was the difference in gas consumption between CZK-paying customers and EUR-paying customers in 2012?",
+      "gold_sql": "SELECT SUM(IIF(T1.Currency = 'CZK', T2.Consumption, 0)) - SUM(IIF(T1.Currency = 'EUR', T2.Consumption, 0)) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2012'",
+      "db_id": "debit_card_specializing",
+      "generated_sql": "SELECT (SELECT SUM(Consumption) FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Currency = 'CZK' AND yearmonth.Date LIKE '2012%') - (SELECT SUM(Consumption) FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Currency = 'EUR' AND yearmonth.Date LIKE '2012%') AS consumption_difference;",
+      "execution_accuracy": false,
+      "exact_match": false,
+      "db_available": true,
+      "latency": 2.781250238418579,
+      "error": null
+    },
+    {
+      "question": "Which year recorded the most consumption of gas paid in CZK?",
+      "gold_sql": "SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+      "db_id": "debit_card_specializing",
+      "generated_sql": "SELECT strftime('%Y', transactions_1k.Date) AS Year FROM transactions_1k JOIN customers ON transactions_1k.CustomerID = customers.CustomerID WHERE customers.Currency = 'CZK' GROUP BY strftime('%Y', transactions_1k.Date) ORDER BY SUM(transactions_1k.Amount) DESC LIMIT 1;",
+      "execution_accuracy": false,
+      "exact_match": false,
+      "db_available": true,
+      "latency": 3.9062387943267822,
+      "error": null
+    }
+  ]
+}
