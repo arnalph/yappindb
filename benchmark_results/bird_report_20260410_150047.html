@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YappinDB Bird-SQL Benchmark Report</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; border-bottom: 3px solid #1a73e8; padding-bottom: 10px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .metric { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; }
+        .metric-value { font-size: 32px; font-weight: bold; color: #1a73e8; }
+        .metric-label { font-size: 14px; color: #666; margin-top: 5px; }
+        .pass { background-color: #d4edda !important; color: #155724; }
+        .fail { background-color: #f8d7da !important; color: #721c24; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; font-size: 13px; }
+        th { background: #1a73e8; color: white; padding: 12px 8px; text-align: left; position: sticky; top: 0; }
+        td { border: 1px solid #ddd; padding: 8px; vertical-align: top; }
+        tr:nth-child(even) { background: #f8f9fa; }
+        .sql-block { font-family: monospace; font-size: 11px; max-width: 400px; overflow: hidden; text-overflow: ellipsis; }
+        .status { padding: 4px 12px; border-radius: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YappinDB Bird-SQL Benchmark Report</h1>
+        
+        <div class="summary">
+            <div class="metric">
+                <div class="metric-value">50</div>
+                <div class="metric-label">Total Tests</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">8.0%</div>
+                <div class="metric-label">Execution Accuracy</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">0.0%</div>
+                <div class="metric-label">Exact Match</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">1.19s</div>
+                <div class="metric-label">Avg Latency</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value fail">FAILED</div>
+                <div class="metric-label">Threshold: 50%</div>
+            </div>
+        </div>
+        
+        <p><strong>Dataset:</strong> minidev_sqlite (dev)</p>
+        <p><strong>Generated:</strong> 20260410_150047</p>
+        
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th>DB</th>
+                <th>Exec Acc</th>
+                <th>Exact</th>
+                <th>Latency</th>
+                <th>SQL Comparison</th>
+                <th>Error</th>
+            </tr>
+            
+            <tr class="pass">
+                <td>1</td>
+                <td title="What is the ratio of customers who pay in EUR against customers who pay in CZK?">What is the ratio of customers who pay in EUR against customers who pay in CZK?</td>
+                <td>debit_card_specializing</td>
+                <td class="pass">YES</td>
+                <td class="fail">NO</td>
+                <td>2.06s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(Currency = 'EUR', 1, 0)) AS FLOAT) / SUM(IIF(Currency = 'CZK', 1, 0)) AS ratio FROM customers
+Generated: SELECT CAST(SUM(CASE WHEN customers.Currency = 'EUR' THEN 1 ELSE 0 END) AS REAL) / CAST(SUM(CASE WHEN customers.Currency = 'CZK' THEN 1 ELSE 0 END) AS REAL) AS ratio FROM customers;</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>2</td>
+                <td title="In 2012, who had the least consumption in LAM?">In 2012, who had the least consumption in LAM?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>5.56s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'LAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T1.CustomerID ORDER BY SUM(T2
+Generated: SELECT yearmonth.CustomerID FROM yearmonth WHERE substr(yearmonth.Date, 1, 4) = '2012' AND yearmonth.Consumption = ( SELECT MIN(yearmonth.Consumption) FROM yearmonth WHERE substr(yearmonth.Date, 1, 4)</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>3</td>
+                <td title="What was the average monthly consumption of customers in SME for the year 2013?">What was the average monthly consumption of customers in SME for the year 2013?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.67s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT AVG(T2.Consumption) / 12 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'
+Generated: SELECT AVG(yearmonth.Consumption) / 12 AS average_monthly_consumption FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Segment = 'SME' AND SUBSTR(yearmonth.</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>4</td>
+                <td title="What was the difference in gas consumption between CZK-paying customers and EUR-paying customers in 2012?">What was the difference in gas consumption between CZK-paying customers and EUR-...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>2.52s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(IIF(T1.Currency = 'CZK', T2.Consumption, 0)) - SUM(IIF(T1.Currency = 'EUR', T2.Consumption, 0)) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR
+Generated: SELECT (SELECT SUM(yearmonth.Consumption) FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Currency = 'CZK' AND substr(yearmonth.Date, 1, 4) = '2012') - (SE</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>5</td>
+                <td title="Which year recorded the most consumption of gas paid in CZK?">Which year recorded the most consumption of gas paid in CZK?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.89s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC
+Generated: SELECT SUBSTR(yearmonth.Date, 1, 4) AS Year FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Currency = 'CZK' GROUP BY SUBSTR(yearmonth.Date, 1, 4) ORDER BY</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>6</td>
+                <td title="What was the gas consumption peak month for SME customers in 2013?">What was the gas consumption peak month for SME customers in 2013?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>2.00s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUBSTR(T2.Date, 5, 2) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME' GROUP BY SUBSTR(T2.Date, 5, 2)
+Generated: SELECT SUBSTR(yearmonth.Date, 5, 2) AS Month FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE customers.Segment = 'SME' AND SUBSTR(yearmonth.Date, 1, 4) = '2013' GROU</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>7</td>
+                <td title="What is the difference in the annual average consumption of the customers with the least amount of consumption paid in CZK for 2013 between SME and LAM, LAM and KAM, and KAM and SME?">What is the difference in the annual average consumption of the customers with t...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>6.05s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(T1.Segment = 'SME', T2.Consumption, 0)) AS REAL) / COUNT(T1.CustomerID) - CAST(SUM(IIF(T1.Segment = 'LAM', T2.Consumption, 0)) AS REAL) / COUNT(T1.CustomerID) , CAST(SUM(IIF(T1.Seg
+Generated: SELECT (SELECT AVG(Consumption) FROM yearmonth WHERE substr(Date, 1, 4) = '2013' AND CustomerID IN (SELECT CustomerID FROM customers WHERE Segment = 'SME')) - (SELECT AVG(Consumption) FROM yearmonth W</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>8</td>
+                <td title="Which of the three segments—SME, LAM and KAM—has the biggest and lowest percentage increases in consumption paid in EUR between 2012 and 2013?">Which of the three segments—SME, LAM and KAM—has the biggest and lowest percenta...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>4.14s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST((SUM(IIF(T1.Segment = 'SME' AND T2.Date LIKE '2013%', T2.Consumption, 0)) - SUM(IIF(T1.Segment = 'SME' AND T2.Date LIKE '2012%', T2.Consumption, 0))) AS FLOAT) * 100 / SUM(IIF(T1.Segment =
+Generated: SELECT customers.Segment, ((MAX(CASE WHEN SUBSTR(yearmonth.Date, 1, 4) = '2013' THEN yearmonth.Consumption END) - MAX(CASE WHEN SUBSTR(yearmonth.Date, 1, 4) = '2012' THEN yearmonth.Consumption END)) *</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>9</td>
+                <td title="How much did customer 6 consume in total between August and November 2013?">How much did customer 6 consume in total between August and November 2013?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>2.53s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(Consumption) FROM yearmonth WHERE CustomerID = 6 AND Date BETWEEN '201308' AND '201311'
+Generated: SELECT SUM(yearmonth.Consumption) AS total_consumption FROM yearmonth WHERE yearmonth.CustomerID = 6 AND CAST(SUBSTR(yearmonth.Date, 1, 4) AS INTEGER) = 2013 AND CAST(SUBSTR(yearmonth.Date, 5, 2) AS I</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>10</td>
+                <td title="How many more "discount" gas stations does the Czech Republic have compared to Slovakia?">How many more "discount" gas stations does the Czech Republic have compared to S...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.41s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(IIF(Country = 'CZE', 1, 0)) - SUM(IIF(Country = 'SVK', 1, 0)) FROM gasstations WHERE Segment = 'Discount'
+Generated: SELECT (SELECT COUNT(*) FROM gasstations WHERE Country = 'CZE') - (SELECT COUNT(*) FROM gasstations WHERE Country = 'SVK') AS discount_gas_stations_difference;</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>11</td>
+                <td title="Is it true that more SMEs pay in Czech koruna than in euros? If so, how many more?">Is it true that more SMEs pay in Czech koruna than in euros? If so, how many mor...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>2.55s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(Currency = 'CZK') - SUM(Currency = 'EUR') FROM customers WHERE Segment = 'SME'
+Generated: SELECT (SELECT COUNT(*) FROM transactions_1k JOIN customers ON transactions_1k.CustomerID = customers.CustomerID WHERE customers.Segment = 'SME' AND customers.Currency = 'CZK') - (SELECT COUNT(*) FROM</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>12</td>
+                <td title="How many percent of LAM customer consumed more than 46.73?">How many percent of LAM customer consumed more than 46.73?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.73s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(T2.Consumption > 46.73, 1, 0)) AS FLOAT) * 100 / COUNT(T1.CustomerID) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'LAM'
+Generated: SELECT CAST(COUNT(CASE WHEN yearmonth.Consumption > 46.73 THEN 1 END) AS REAL) * 100 / COUNT(*) AS percentage FROM yearmonth JOIN customers ON yearmonth.CustomerID = customers.CustomerID WHERE custome</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>13</td>
+                <td title="In February 2012, what percentage of customers consumed more than 528.3?">In February 2012, what percentage of customers consumed more than 528.3?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.61s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(Consumption > 528.3, 1, 0)) AS FLOAT) * 100 / COUNT(CustomerID) FROM yearmonth WHERE Date = '201202'
+Generated: SELECT (COUNT(CASE WHEN Consumption > 528.3 THEN 1 END) * 100.0 / COUNT(*)) AS Percentage FROM yearmonth WHERE SUBSTR(Date, 1, 6) = '201202';</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>14</td>
+                <td title="What is the highest monthly consumption in the year 2012?">What is the highest monthly consumption in the year 2012?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>4.45s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(Consumption) FROM yearmonth WHERE SUBSTR(Date, 1, 4) = '2012' GROUP BY SUBSTR(Date, 5, 2) ORDER BY SUM(Consumption) DESC LIMIT 1
+Generated: SELECT MAX(Consumption) AS highest_monthly_consumption FROM yearmonth WHERE SUBSTR(Date, 1, 4) = '2012';</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>15</td>
+                <td title="Please list the product description of the products consumed in September, 2013.">Please list the product description of the products consumed in September, 2013.</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.88s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T3.Description FROM transactions_1k AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID INNER JOIN products AS T3 ON T1.ProductID = T3.ProductID WHERE T2.Date = '201309'
+Generated: SELECT DISTINCT products.Description FROM transactions_1k JOIN products ON transactions_1k.ProductID = products.ProductID JOIN yearmonth ON transactions_1k.CustomerID = yearmonth.CustomerID WHERE subs</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>16</td>
+                <td title="Please list the countries of the gas stations with transactions taken place in June, 2013.">Please list the countries of the gas stations with transactions taken place in J...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.16s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT DISTINCT T2.Country FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN yearmonth AS T3 ON T1.CustomerID = T3.CustomerID WHERE T3.Date = '201
+Generated: SELECT DISTINCT gasstations.Country FROM transactions_1k JOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID WHERE substr(transactions_1k.Date, 1, 6) = '201306';</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>17</td>
+                <td title="Among the customers who paid in euro, how many of them have a monthly consumption of over 1000?">Among the customers who paid in euro, how many of them have a monthly consumptio...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.38s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(*) FROM yearmonth AS T1 INNER JOIN customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Currency = 'EUR' AND T1.Consumption > 1000.00
+Generated: SELECT COUNT(DISTINCT customers.CustomerID) FROM customers JOIN yearmonth ON customers.CustomerID = yearmonth.CustomerID WHERE customers.Currency = 'EUR' AND yearmonth.Consumption > 1000;</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="pass">
+                <td>18</td>
+                <td title="Please list the product descriptions of the transactions taken place in the gas stations in the Czech Republic.">Please list the product descriptions of the transactions taken place in the gas ...</td>
+                <td>debit_card_specializing</td>
+                <td class="pass">YES</td>
+                <td class="fail">NO</td>
+                <td>1.60s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT DISTINCT T3.Description FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN products AS T3 ON T1.ProductID = T3.ProductID WHERE T2.Country = 
+Generated: SELECT DISTINCT products.Description FROM transactions_1k JOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID JOIN products ON transactions_1k.ProductID = products.ProductID WH</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="pass">
+                <td>19</td>
+                <td title="Please list the disparate time of the transactions taken place in the gas stations from chain no. 11.">Please list the disparate time of the transactions taken place in the gas statio...</td>
+                <td>debit_card_specializing</td>
+                <td class="pass">YES</td>
+                <td class="fail">NO</td>
+                <td>1.44s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT DISTINCT T1.Time FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T2.ChainID = 11
+Generated: SELECT DISTINCT transactions_1k.Time FROM transactions_1k JOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID WHERE gasstations.ChainID = 11;</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>20</td>
+                <td title="Among the transactions made in the gas stations in the Czech Republic, how many of them are taken place after 2012/1/1?">Among the transactions made in the gas stations in the Czech Republic, how many ...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>1.21s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(T1.TransactionID) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T2.Country = 'CZE' AND STRFTIME('%Y', T1.Date) >= '2012'
+Generated: SELECT COUNT(*) FROM transactions_1k JOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID WHERE gasstations.Country = 'CZE' AND transactions_1k.Date > '2012-01-01';</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="pass">
+                <td>21</td>
+                <td title="What kind of currency did the customer paid at 16:25:00 in 2012/8/24?">What kind of currency did the customer paid at 16:25:00 in 2012/8/24?</td>
+                <td>debit_card_specializing</td>
+                <td class="pass">YES</td>
+                <td class="fail">NO</td>
+                <td>1.27s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT DISTINCT T3.Currency FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN customers AS T3 ON T1.CustomerID = T3.CustomerID WHERE T1.Date = '20
+Generated: SELECT DISTINCT customers.Currency FROM transactions_1k JOIN customers ON transactions_1k.CustomerID = customers.CustomerID WHERE transactions_1k.Date = '2012-08-24' AND transactions_1k.Time = '16:25:</pre>
+                </details></td>
+                <td></td>
+            </tr>
+            
+            <tr class="fail">
+                <td>22</td>
+                <td title="What segment did the customer have at 2012/8/23 21:20:00?">What segment did the customer have at 2012/8/23 21:20:00?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.33s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.Segment FROM transactions_1k AS T1 INNER JOIN customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.date = '2012-08-23' AND T1.time = '21:20:00'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>23</td>
+                <td title="For all the transactions happened during 8:00-9:00 in 2012/8/26, how many happened in CZE?">For all the transactions happened during 8:00-9:00 in 2012/8/26, how many happen...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(T1.TransactionID) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-26' AND T1.Time BETWEEN '08:00:00' AND '09:00:00' A
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>24</td>
+                <td title="What's the nationality of the customer who spent 548.4 in 2012/8/24?">What's the nationality of the customer who spent 548.4 in 2012/8/24?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.Country FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-24' AND T1.Price  = 548.4
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>25</td>
+                <td title="What is the percentage of the customers who used EUR in 2012/8/25?">What is the percentage of the customers who used EUR in 2012/8/25?</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(T2.Currency = 'EUR', 1, 0)) AS FLOAT) * 100 / COUNT(T1.CustomerID) FROM transactions_1k AS T1 INNER JOIN customers AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Date = '2012-08-2
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>26</td>
+                <td title="For the customer who paid 634.8 in 2012/8/25, what was the consumption decrease rate from Year 2012 to 2013?">For the customer who paid 634.8 in 2012/8/25, what was the consumption decrease ...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.30s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(SUBSTRING(Date, 1, 4) = '2012', Consumption, 0)) - SUM(IIF(SUBSTRING(Date, 1, 4) = '2013', Consumption, 0)) AS FLOAT) / SUM(IIF(SUBSTRING(Date, 1, 4) = '2012', Consumption, 0)) FRO
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>27</td>
+                <td title="What is the percentage of "premium" against the overall segment in Country = "SVK"?">What is the percentage of "premium" against the overall segment in Country = "SV...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(IIF(Country = 'SVK' AND Segment = 'Premium', 1, 0)) AS FLOAT) * 100 / SUM(IIF(Country = 'SVK', 1, 0)) FROM gasstations
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>28</td>
+                <td title="What is the amount spent by customer "38508" at the gas stations? How much had the customer spent in January 2012?">What is the amount spent by customer "38508" at the gas stations? How much had t...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.33s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(T1.Price ) , SUM(IIF(T3.Date = '201201', T1.Price, 0)) FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID INNER JOIN yearmonth AS T3 ON T1.Customer
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>29</td>
+                <td title="Who is the top spending customer and how much is the average price per single item purchased by this customer? What currency was being used?">Who is the top spending customer and how much is the average price per single it...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.CustomerID, SUM(T2.Price / T2.Amount), T1.Currency FROM customers AS T1 INNER JOIN transactions_1k AS T2 ON T1.CustomerID = T2.CustomerID WHERE T2.CustomerID = ( SELECT CustomerID FROM yearm
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>30</td>
+                <td title="For all the people who paid more than 29.00 per unit of product id No.5. Give their consumption status in the August of 2012.">For all the people who paid more than 29.00 per unit of product id No.5. Give th...</td>
+                <td>debit_card_specializing</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.Consumption FROM transactions_1k AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Price / T1.Amount > 29.00 AND T1.ProductID = 5 AND T2.Date = '201208'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>31</td>
+                <td title="What's Angela Sanders's major?">What's Angela Sanders's major?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.34s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.first_name = 'Angela' AND T1.last_name = 'Sanders'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>32</td>
+                <td title="Among the students from the Student_Club who attended the event "Women's Soccer", how many of them want a T-shirt that's in medium size?">Among the students from the Student_Club who attended the event "Women's Soccer"...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T1.event_name = 'Women''s Soc
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>33</td>
+                <td title="Among the events attended by more than 10 members of the Student_Club, how many of them are meetings?">Among the events attended by more than 10 members of the Student_Club, how many ...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.33s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(DISTINCT T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event WHERE T1.type = 'Meeting' GROUP BY T1.event_id HAVING COUNT(T2.link_to_event) > 10
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>34</td>
+                <td title="List all the names of events that had an attendance of over 20 students but were not fundraisers.">List all the names of events that had an attendance of over 20 students but were...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T1.event_name FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event GROUP BY T1.event_id HAVING COUNT(T2.link_to_event) > 20 EXCEPT SELECT T1.event_name FROM event AS T
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>35</td>
+                <td title="What is the amount of the funds that the Vice President received?">What is the amount of the funds that the Vice President received?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.31s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.amount FROM member AS T1 INNER JOIN income AS T2 ON T1.member_id = T2.link_to_member WHERE T1.position = 'Vice President'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>36</td>
+                <td title="List the full name of the Student_Club members that grew up in Illinois state.">List the full name of the Student_Club members that grew up in Illinois state.</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.34s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T1.first_name, T1.last_name FROM member AS T1 INNER JOIN zip_code AS T2 ON T1.zip = T2.zip_code WHERE T2.state = 'Illinois'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>37</td>
+                <td title="Was each expense in October Meeting on October 8, 2019 approved?">Was each expense in October Meeting on October 8, 2019 approved?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.33s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T3.approved FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event INNER JOIN expense AS T3 ON T2.budget_id = T3.link_to_budget WHERE T1.event_name = 'October Meeting' AND T
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>38</td>
+                <td title="Calculate the total average cost that Elijah Allen spent in the events on September and October.">Calculate the total average cost that Elijah Allen spent in the events on Septem...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT AVG(T2.cost) FROM member AS T1 INNER JOIN expense AS T2 ON T1.member_id = T2.link_to_member WHERE T1.last_name = 'Allen' AND T1.first_name = 'Elijah' AND (SUBSTR(T2.expense_date, 6, 2) = '09' O
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>39</td>
+                <td title="Calculate the difference of the total amount spent in all events by the Student_Club in year 2019 and 2020.">Calculate the difference of the total amount spent in all events by the Student_...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(CASE WHEN SUBSTR(T1.event_date, 1, 4) = '2019' THEN T2.spent ELSE 0 END) - SUM(CASE WHEN SUBSTR(T1.event_date, 1, 4) = '2020' THEN T2.spent ELSE 0 END) AS num FROM event AS T1 INNER JOIN bu
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>40</td>
+                <td title="What was the notes of the fundraising on 2019/9/14?">What was the notes of the fundraising on 2019/9/14?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT notes FROM income WHERE source = 'Fundraising' AND date_received = '2019-09-14'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>41</td>
+                <td title="Tell the phone number of "Carlo Jacobs".">Tell the phone number of "Carlo Jacobs".</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT phone FROM member WHERE first_name = 'Carlo' AND last_name = 'Jacobs'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>42</td>
+                <td title="What is the status of the event which bought "Post Cards, Posters" on 2019/8/20?">What is the status of the event which bought "Post Cards, Posters" on 2019/8/20?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.30s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T1.event_status FROM budget AS T1 INNER JOIN expense AS T2 ON T1.budget_id = T2.link_to_budget WHERE T2.expense_description = 'Post Cards, Posters' AND T2.expense_date = '2019-08-20'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>43</td>
+                <td title="What was Brent Thomason's major?">What was Brent Thomason's major?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.30s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.first_name = 'Brent' AND T1.last_name = 'Thomason'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>44</td>
+                <td title="For all the club members from "Business" major, how many of them wear medium size t-shirt?">For all the club members from "Business" major, how many of them wear medium siz...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.30s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(T1.member_id) FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.major_name = 'Business' AND T1.t_shirt_size = 'Medium'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>45</td>
+                <td title="Which department was the President of the club in?">Which department was the President of the club in?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.department FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.position = 'President'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>46</td>
+                <td title="State the date Connor Hilton paid his/her dues.">State the date Connor Hilton paid his/her dues.</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.date_received FROM member AS T1 INNER JOIN income AS T2 ON T1.member_id = T2.link_to_member WHERE T1.first_name = 'Connor' AND T1.last_name = 'Hilton' AND T2.source = 'Dues'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>47</td>
+                <td title="How many times was the budget in Advertisement for "Yearly Kickoff" meeting more than "October Meeting"?">How many times was the budget in Advertisement for "Yearly Kickoff" meeting more...</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.30s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT CAST(SUM(CASE WHEN T2.event_name = 'Yearly Kickoff' THEN T1.amount ELSE 0 END) AS REAL) / SUM(CASE WHEN T2.event_name = 'October Meeting' THEN T1.amount ELSE 0 END) FROM budget AS T1 INNER JOIN
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>48</td>
+                <td title="What is the total cost of the pizzas for all the events?">What is the total cost of the pizzas for all the events?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.63s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT SUM(cost) FROM expense WHERE expense_description = 'Pizza'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>49</td>
+                <td title="How many cities are there in Orange County, Virginia?">How many cities are there in Orange County, Virginia?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT COUNT(city) FROM zip_code WHERE county = 'Orange County' AND state = 'Virginia'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+            <tr class="fail">
+                <td>50</td>
+                <td title="What does the person with the phone number "809-555-3360" major in?">What does the person with the phone number "809-555-3360" major in?</td>
+                <td>student_club</td>
+                <td class="fail">NO</td>
+                <td class="fail">NO</td>
+                <td>0.28s</td>
+                <td><details><summary>View SQL</summary>
+                    <pre class="sql-block">Gold: SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.phone = '809-555-3360'
+Generated: </pre>
+                </details></td>
+                <td>SQL generation failed: HF API error (402): {"error":"You have depleted your monthly included credits</td>
+            </tr>
+            
+        </table>
+    </div>
+</body>
+</html>

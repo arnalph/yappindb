@@ -23,7 +23,8 @@ python-multipart>=0.0.6
 llama-cpp-python>=0.2.0
 
 # SQL validation
-sqlparse>=0.4.0
+sqlglot>=25.0.0
+sqlparse>=0.4.0  # Fallback for basic validation
 
 # Development / Testing
 pytest>=7.0.0
