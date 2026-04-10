@@ -108,6 +108,7 @@ class BirdBenchmark:
         # Check if database exists
         db_available = db_path.exists()
         if not db_available:
+            # Skip databases that don't exist (e.g., debit_card_specializing, california_schools)
             return {
                 "question": question,
                 "gold_sql": gold_sql,
@@ -117,7 +118,8 @@ class BirdBenchmark:
                 "exact_match": False,
                 "db_available": False,
                 "error": f"Database not found: {db_path}",
-                "latency": 0
+                "latency": 0,
+                "skipped": True  # Mark as skipped
             }
         
         start_time = time.time()
@@ -224,29 +226,35 @@ class BirdBenchmark:
         return 0 if exec_acc >= self.threshold else 1
     
     def _calculate_summary(self):
-        """Calculate aggregate metrics."""
+        """Calculate aggregate metrics, excluding skipped tests."""
         total = len(self.results)
         if total == 0:
             self.summary = {"total": 0}
             return
-        
-        exec_ok = sum(1 for r in self.results if r.get("execution_accuracy", False))
-        exact_ok = sum(1 for r in self.results if r.get("exact_match", False))
-        db_available = sum(1 for r in self.results if r.get("db_available", False))
-        errors = sum(1 for r in self.results if r.get("error"))
-        
-        latencies = [r.get("latency", 0) for r in self.results if r.get("latency", 0) > 0]
+
+        # Count skipped tests (databases that don't exist)
+        skipped = sum(1 for r in self.results if r.get("skipped", False))
+        active = total - skipped  # Only count tests that actually ran
+
+        exec_ok = sum(1 for r in self.results if r.get("execution_accuracy", False) and not r.get("skipped"))
+        exact_ok = sum(1 for r in self.results if r.get("exact_match", False) and not r.get("skipped"))
+        db_available = sum(1 for r in self.results if r.get("db_available", False) and not r.get("skipped"))
+        errors = sum(1 for r in self.results if r.get("error") and not r.get("skipped"))
+
+        latencies = [r.get("latency", 0) for r in self.results if r.get("latency", 0) > 0 and not r.get("skipped")]
         avg_latency = sum(latencies) / len(latencies) if latencies else 0
-        
+
         self.summary = {
             "total": total,
+            "skipped": skipped,
+            "active": active,
             "db_available": db_available,
-            "execution_accuracy": exec_ok / total,
-            "exact_match": exact_ok / total,
+            "execution_accuracy": exec_ok / active if active > 0 else 0,
+            "exact_match": exact_ok / active if active > 0 else 0,
             "avg_latency": avg_latency,
             "errors": errors,
             "threshold": self.threshold,
-            "passed": exec_ok / total >= self.threshold
+            "passed": (exec_ok / active >= self.threshold) if active > 0 else False
         }
     
     def save_reports(self):
@@ -399,6 +407,8 @@ Generated: {gen_sql}</pre>
         print(f"{'='*60}")
         print(f"  Dataset:         {self.dataset_name} ({self.dataset_subset})")
         print(f"  Total Tests:     {s.get('total', 0)}")
+        print(f"  Skipped:         {s.get('skipped', 0)} (missing databases)")
+        print(f"  Active Tests:    {s.get('active', 0)}")
         print(f"  DB Available:    {s.get('db_available', 0)}")
         print(f"  Errors:          {s.get('errors', 0)}")
         print(f"{'─'*60}")
